@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+
+"""
+IMAGETEXT
+    by d0c_s4vage
+
+imagetext is a utility that can write data in hex-form as
+visual characters into an image, and read the raw data back out
+of images.
+
+Unless specifically told with -r or -w, imagetext automatically
+determines if the input data should be written into an image, or
+if the input data is an image and data should be extracted from
+it.
+
+Examples:
+
+    echo "HELLO" | imagetext > hello.png
+    echo "HELLO" | imagetext -o hello.png
+    imagetext -i hello.txt -o hello.png
+"""
+
+
+import argparse
+import imagetext
+import os
+import StringIO
+import sys
+
+
+def main(argv):
+    """Parse the arguments, and do the actions
+    """
+    parser = argparse.ArgumentParser(
+        __file__,
+        description=__doc__,
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-r", "--read",
+        help    = "Read data from the image in the input stream and write it to the output stream",
+        dest    = "input_is_image",
+        action  = "store_true",
+        default = None,
+    )
+    group.add_argument("-w", "--write",
+        help    = "Write data from the input stream into a new image in the output stream",
+        dest    = "input_is_image",
+        action  = "store_false",
+        default = None,
+    )
+
+    parser.add_argument("-i", "--input",
+        help    = "Set the input stream to a file (default=stdin)",
+        type    = argparse.FileType("rb"),
+        default = sys.stdin,
+    )
+    parser.add_argument("-o", "--output",
+        help    = "Set the output stream to a file (default=stdout)",
+        type    = argparse.FileType("wb"),
+        default = sys.stdout,
+    )
+
+    args = parser.parse_args(argv)
+
+    input_data = args.input.read()
+
+    # do smart conversion based on a magic-bytes check
+    # on the input data
+    if args.input_is_image is None:
+        png_magic = "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A"
+
+        if input_data.startswith(png_magic):
+            args.input_is_image = True
+        else:
+            args.input_is_image = False
+
+    args.input = StringIO.StringIO(input_data)
+
+    # read the text from the input image, and print it out plaintext
+    if args.input_is_image:
+        data = imagetext.read(args.input)
+        args.output.write(data)
+    else:
+        imagetext.write(args.input.read(), args.output)
+    
+    args.output.flush()
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
