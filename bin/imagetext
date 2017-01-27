@@ -3,16 +3,29 @@
 
 
 """
-IMAGETEXT
-    by d0c_s4vage
+ XX                                       X
+XXOX                                      X                     X
+ XXX                                      X                     X
+                                          X                 .   X
+ X^   XXXX XXX.    .XX    .XXXX   .X.  XXXXXX    .XX   X.  .X XXXXXXXX
+ X    XX^XXX^XX  .XX^XX   XX XX  .X XX    X     .X.XX   X XX^   X
+ X    X^  X   X  XX^ XX   X   X  XXXX^    X     XXXX^    XXX    X
+ X    X   X   X  ^X  XXX  ^XXXXX XX       X   X XX       XXXX.  X
+ X    X   X   X   ^XXX XX     ^X  XXXXXX  ^XXX^ ^XXXXXX .X  ^X  XXXXX
+ X            X.               X                        X^
+                         X     X
+                         X    XX
+                         ^XXXXX^
+
+                  by James 'd0c_s4vage' Johnson
 
 imagetext is a utility that can write data in hex-form as
 visual characters into an image, and read the raw data back out
-of images.
+of images created by imagetext.
 
-Unless specifically told with -r or -w, imagetext automatically
+Unless specifically specified with -r or -w, imagetext automatically
 determines if the input data should be written into an image, or
-if the input data is an image and data should be extracted from
+if the input data *is* an image and data should be extracted from
 it.
 
 Examples:
@@ -41,13 +54,13 @@ def main(argv):
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-r", "--read",
-        help    = "Read data from the image in the input stream and write it to the output stream",
+        help    = "Input file is an image, read embedded data to output file",
         dest    = "input_is_image",
         action  = "store_true",
         default = None,
     )
     group.add_argument("-w", "--write",
-        help    = "Write data from the input stream into a new image in the output stream",
+        help    = "Output file is an image, write data to output image",
         dest    = "input_is_image",
         action  = "store_false",
         default = None,
