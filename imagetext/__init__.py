@@ -32,7 +32,7 @@ def write(data, outfile):
     specified by ``outfile``.
 
     :param str data: The data to write
-    :param outfile: A stream-like object OR a string.
+    :param outfile: A stream-like object OR a file-path string.
     :returns: None
     """
     # times two b/c one byte needs two characters in hex. E.g. FF
@@ -53,7 +53,11 @@ def write(data, outfile):
 
 
 def read(infile):
-    """Read data from the provide ``infile`` filepath/stream-like object
+    """Extract the data visually contained in the image specified by the ``infile``
+    filepath/stream-like object.
+
+    :params infile: A stream-like object OR a file-path string.
+    :returns: The data extracted from the image
     """
     img = PIL.Image.open(infile)
     raw_data = img.tobytes()
