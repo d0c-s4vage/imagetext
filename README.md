@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/d0c-s4vage/imagetext.svg?branch=master)](https://travis-ci.org/d0c-s4vage/imagetext)
+
 # `imagetext` - Saving data as visual characters in images
 
 ![imagetext_ascii](docs/source/_static/ascii.png)
